@@ -1,15 +1,21 @@
 #coding=utf-8
 import jieba
 import re
+import chardet
 from collections import Counter
 import sys
+def get_encoding(file):
+    with open(file, 'rb') as f:
+        return chardet.detect(f.read())['encoding']
 
-txt = open(sys.argv[1], "r", encoding="utf-8").read()
+
+txt = open(sys.argv[1], "r", encoding=get_encoding(sys.argv[1])).read()
 
 excludes = {"，", "。", "\n", "-", "“", "”", "：", "；", "？", "（", "）", "！", "…", "!", "?", ".",
-            "\"", "/", "\\", "{", "}", "(", ")"}
+            "\"", "/", "\\", "{", "}", "(", ")", "【", "】"," ", "、",
+            "「", "」", "@", "+", ":"}
 
-words = jieba.lcut(txt)
+words = jieba.cut_for_search(txt)
 
 counts = {}
 

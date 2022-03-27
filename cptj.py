@@ -13,14 +13,16 @@ txt = open(sys.argv[1], "r", encoding=get_encoding(sys.argv[1])).read()
 
 excludes = {"，", "。", "\n", "-", "“", "”", "：", "；", "？", "（", "）", "！", "…", "!", "?", ".",
             "\"", "/", "\\", "{", "}", "(", ")", "【", "】"," ", "、",
-            "「", "」", "@", "+", ":"}
+            "「", "」", "@", "+", ":", "*",
+            }
 
 words = jieba.cut_for_search(txt)
 
 counts = {}
 
 for word in words:
-    counts[word] = counts.get(word,0)+1
+    if not word.isdigit():
+        counts[word] = counts.get(word,0)+1
 
 for word in excludes:
     if counts.__contains__(word):
